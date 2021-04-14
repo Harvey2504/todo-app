@@ -25,15 +25,15 @@ pipeline{
         }
         stage("commiting the docker images"){
             steps{
-                sh "docker commit todo-app harvey2504/todo-app:${env.BUILD_ID}"
-                sh "docker commit todo-mysql harvey2504/todo-mysql:${env.BUILD_ID}" 
+                sh "docker commit todo-app harvey2504/todo-app:v${env.BUILD_ID}"
+                sh "docker commit todo-mysql harvey2504/todo-mysql:v${env.BUILD_ID}" 
             }
         }
         stage("pushing the images to docker hub"){
             steps{
                 withDockerRegistry([ credentialsId: "docker-token", url: "" ]){
-                    sh "docker push harvey2504/todo-app:${env.BUILD_ID}"
-                    sh "docker push harvey2504/todo-mysql:${env.BUILD_ID}"
+                    sh "docker push harvey2504/todo-app:v${env.BUILD_ID}"
+                    sh "docker push harvey2504/todo-mysql:v${env.BUILD_ID}"
                 }
             }
         }
