@@ -20,7 +20,7 @@ pipeline{
         
         stage("docker build"){
             steps{
-                sh "docker-compose up -d"
+                sh "sudo docker-compose up -d"
             }
         }
         stage("commiting the docker images"){
