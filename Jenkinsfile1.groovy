@@ -20,7 +20,8 @@ pipeline{
         
         stage("docker build"){
             steps{
-                sh "docker-compose up -d"
+                sh 'docker image prune -a --force'
+                sh 'docker-compose build'
             }
         }
         stage("commiting the docker images"){
