@@ -45,13 +45,14 @@ pipeline{
                 sh 'chmod +x change-tag.sh'
                 sh """./change-tag.sh v${env.BUILD_ID}"""
                 sh 'cat k8s/api-deployment.yaml'
+                
                 withKubeConfig(caCertificate: '', clusterName: '', contextName: '', credentialsId: 'kube-aws', namespace: '', serverUrl: 'https://18CD566A4562F6831EF4B40B0795FE38.gr7.us-west-2.eks.amazonaws.com') {
-                                // some block
-                    sh 'kubectl apply -f k8s/database-deployment.yaml'
-                    
-                }
+                    // some block
+                      sh 'kubectl apply -f k8s/database-deployment.yaml'
+}
+
                 sleep(120)
-                withKubeConfig(caCertificate: '', clusterName: '', contextName: '', credentialsId: 'kube-aws', namespace: '', serverUrl: 'https://18CD566A4562F6831EF4B40B0795FE38.gr7.us-west-2.eks.amazonaws.com') {
+               withKubeConfig(caCertificate: '', clusterName: '', contextName: '', credentialsId: 'kube-aws', namespace: '', serverUrl: 'https://18CD566A4562F6831EF4B40B0795FE38.gr7.us-west-2.eks.amazonaws.com') {
                                 // some block
                     sh 'kubectl apply -f k8s/api-deployment.yaml'
                     sh 'kubectl get pods'
