@@ -20,8 +20,7 @@ pipeline{
         
         stage("docker build"){
             steps{
-                sh 'docker image prune -a --force'
-                sh 'docker-compose build'
+                sh 'docker-compose up -d'
             }
         }
         stage("commiting the docker images"){
@@ -32,7 +31,7 @@ pipeline{
         }
         stage("pushing the images to docker hub"){
             steps{
-                withDockerRegistry([ credentialsId: "4a1df8e9-7228-4ef8-93d7-d281303cd06f", url: "" ]){
+                withDockerRegistry([ credentialsId: "docker-token", url: "" ]){
                     sh "docker push harvey2504/todo-app:v1"
                     sh "docker push harvey2504/todo-mysql:v1"
                 }
