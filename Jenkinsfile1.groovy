@@ -18,30 +18,29 @@ pipeline{
             }
         }
         
-       /* stage('Docker build'){
+        stage("docker build"){
             steps{
-               
-                    sh 'docker image prune -a --force'
-                    sh 'docker-compose build'
-                
-                
+                sh "docker-compose up -d"
             }
         }
-        stage('Pushing images to docker hub'){
+        stage("commiting the docker images"){
             steps{
-                
-
-                withCredentials([string(credentialsId: 'docker-pwd', variable: 'dockerHubPWD')]) {
-                            // some block
-                   sh "docker login -u sujjad -p ${dockerHubPWD}"
-
+                sh "docker commit todo-app harvey2504/todo-app:v1"
+                sh "docker commit todo-mysql harvey2504/todo-mysql:v1" 
+            }
+        }
+        stage("pushing the images to docker hub"){
+            steps{
+                withDockerRegistry([ credentialsId: "4a1df8e9-7228-4ef8-93d7-d281303cd06f", url: "" ]){
+                    sh "docker push harvey2504/todo-app:v1"
+                    sh "docker push harvey2504/todo-mysql:v1"
                 }
-                sh "docker commit cisample_app_1 sujjad/todo-app:v${env.BUILD_ID}"
-                sh "docker push sujjad/todo-app:v${env.BUILD_ID}"
-
             }
         }
-        stage('deploying it to kubernetes'){
+
+
+      
+       /* stage('deploying it to kubernetes'){
             steps{
                 sh 'chmod +x change-tag.sh'
                 sh """./change-tag.sh v${env.BUILD_ID}"""
