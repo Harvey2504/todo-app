@@ -47,6 +47,12 @@ pipeline{
                 sh 'cat k8s/api-deployment.yaml'
 
 
+
+                 withKubeConfig(credentialsId: 'awskube', serverUrl: 'https://2DC0660F4A01251F777FF0E345DE1289.gr7.us-east-2.eks.amazonaws.com') {
+                    // some block
+                      sh 'kubectl apply -f k8s/database-deployment.yaml'
+}
+
                 sleep(120)
                withKubeConfig(credentialsId: 'awskube', serverUrl: 'https://2DC0660F4A01251F777FF0E345DE1289.gr7.us-east-2.eks.amazonaws.com') {
                                 // some block
@@ -55,11 +61,6 @@ pipeline{
                     sh 'kubectl get svc'
                     
                 }
-                
-                withKubeConfig(credentialsId: 'awskube', serverUrl: 'https://2DC0660F4A01251F777FF0E345DE1289.gr7.us-east-2.eks.amazonaws.com') {
-                    // some block
-                      sh 'kubectl apply -f k8s/database-deployment.yaml'
-}
 
                 
 
