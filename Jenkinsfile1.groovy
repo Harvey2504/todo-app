@@ -45,20 +45,23 @@ pipeline{
                 sh 'chmod +x change-tag.sh'
                 sh """./change-tag.sh v${env.BUILD_ID}"""
                 sh 'cat k8s/api-deployment.yaml'
-                
-                withKubeConfig(credentialsId: 'awskube', serverUrl: 'https://2DC0660F4A01251F777FF0E345DE1289.gr7.us-east-2.eks.amazonaws.com') {
-                    // some block
-                      sh 'kubectl apply -f k8s/database-deployment.yaml'
-}
+
 
                 sleep(120)
-               withKubeConfig(credentialsId: 'awskube', namespace: '', serverUrl: 'https://2DC0660F4A01251F777FF0E345DE1289.gr7.us-east-2.eks.amazonaws.com') {
+               withKubeConfig(credentialsId: 'awskube', serverUrl: 'https://2DC0660F4A01251F777FF0E345DE1289.gr7.us-east-2.eks.amazonaws.com') {
                                 // some block
                     sh 'kubectl apply -f k8s/api-deployment.yaml'
                     sh 'kubectl get pods'
                     sh 'kubectl get svc'
                     
                 }
+                
+                withKubeConfig(credentialsId: 'awskube', serverUrl: 'https://2DC0660F4A01251F777FF0E345DE1289.gr7.us-east-2.eks.amazonaws.com') {
+                    // some block
+                      sh 'kubectl apply -f k8s/database-deployment.yaml'
+}
+
+                
 
             }
         } 
